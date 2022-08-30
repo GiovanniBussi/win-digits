@@ -9,15 +9,15 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
-    - name: Install generic packages
+    - name: Install packages
       run: |
         sudo apt-get install -y binutils-mingw-w64-x86-64 gcc-mingw-w64-x86-64 g++-mingw-w64-x86-64
+        sudo apt-get install -y wine
     - name: Build
       run: |
-        x86_64-w64-mingw32-gcc -O3 -static -static-libgcc -static-libstdc++ main.cpp func.cpp -o run.exe
-        g++ -O3 main.cpp func.cpp -o run
+        x86_64-w64-mingw32-gcc -O3 -static -static-libgcc -static-libstdc++ main.cpp func.cpp func2.cpp -o run.exe
+        g++ -O3 main.cpp func.cpp func2.cpp -o run
     - name: Run
       run: |
-        sudo apt-get install -y wine
         wine $PWD/run.exe
         ./run
