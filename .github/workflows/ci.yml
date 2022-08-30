@@ -15,8 +15,17 @@ jobs:
         sudo apt-get install -y wine
     - name: Build
       run: |
-        x86_64-w64-mingw32-g++ -O -static -static-libgcc -static-libstdc++ main.cpp func.cpp func2.cpp -o run.exe
-        g++ -O main.cpp func.cpp func2.cpp -o run
+        # make sure units are compiled separately
+        x86_64-w64-mingw32-g++ -O3 -c main.cpp
+        x86_64-w64-mingw32-g++ -O3 -c func.cpp
+        x86_64-w64-mingw32-g++ -O3 -c func2.cpp
+        x86_64-w64-mingw32-g++ -static -static-libgcc -static-libstdc++ -c main.o func.o func2.o -o run.exe
+        rm *.o
+        g++ -O3 -c main.cpp
+        g++ -O3 -c func.cpp
+        g++ -O3 -c func2.cpp
+        g++  main.o func.o func2.o -o run
+        rm *.o
     - name: Run
       run: |
         wine $PWD/run.exe
