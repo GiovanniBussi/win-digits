@@ -9,6 +9,6 @@ double scale2();
 
 double getDt(double dt){
   double magnitude=std::pow(10,std::floor(std::log10(dt)));
-  dt=std::floor(dt/magnitude*1e7)/1e7*magnitude;
+  dt=std::floor(dt/magnitude*1e6)/1e6*magnitude;
   return dt;
 }
