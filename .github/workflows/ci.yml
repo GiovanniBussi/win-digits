@@ -11,11 +11,11 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install generic packages
       run: |
-        sudo apt-get install -y binutils-mingw-w64-x86-64 gcc-mingw-w64-x86-64
+        sudo apt-get install -y binutils-mingw-w64-x86-64 gcc-mingw-w64-x86-64 g++-mingw-w64-x86-64
     - name: Build
       run: |
-        x86_64-w64-mingw32-gcc -O3 -static -static-libgcc main.c func.c -o run.exe
-        gcc -O3 main.c func.c -o run
+        x86_64-w64-mingw32-gcc -O3 -static -static-libgcc -static-libstdc++ main.cpp func.cpp -o run.exe
+        g++ -O3 main.cpp func.cpp -o run
     - name: Run
       run: |
         sudo apt-get install -y wine
